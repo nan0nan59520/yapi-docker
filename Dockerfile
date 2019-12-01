@@ -44,7 +44,5 @@ RUN mkdir yapi && \
 WORKDIR /home/yapi/yapi
 
 RUN npm install --registry https://registry.npm.taobao.org
-#    npm install ykit -g --registry https://registry.npm.taobao.org && \
-#    ykit pack -m
 
 USER root
