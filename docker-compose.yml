@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+  mongodb:
+    image: mongo:3.5
+    volumes:
+      - type: bind
+        source: ./data/db
+        target: /data/db
+  web:
+    image: ciwei/yapi:20191115
+    command: /bin/bash -c "npm run install-server && node server/app.js"
+    links:
+      - mongodb:mongodb
+    ports:
+      - 3000:3000
+      - 4000:4000
+    volumes:
+      - type: bind
+        source: ./config.json
+        target: /home/yapi/config.json
+      - type: bind
+        source: ./data/yapi
+        target: /home/yapi/log
