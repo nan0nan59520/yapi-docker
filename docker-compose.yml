@@ -7,7 +7,7 @@ services:
         source: ./data/db
         target: /data/db
   web:
-    image: ciwei/yapi:20191115
+    image: ciwei123321/yapi:20191115
     command: /bin/bash -c "[ ! -e /home/yapi/log/init.lock ] && npm run install-server && touch /home/yapi/log/init.lock; node server/app.js"
     links:
       - mongodb:mongodb
