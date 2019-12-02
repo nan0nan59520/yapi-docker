@@ -15,13 +15,9 @@ RUN apt-get update && \
     wget \
     git \
     apt-transport-https \
-    ca-certificates
-
-# install nodejs
-#RUN wget http://cdn.npm.taobao.org/dist/node/v11.15.0/node-v11.15.0-linux-x64.tar.gz && \
-#    tar -xzvf node-v11.15.0-linux-x64.tar.gz && \
-#    ln -s /home/yapi/node-v11.15.0-linux-x64/bin/node /usr/local/bin/node && \
-#    ln -s /home/yapi/node-v11.15.0-linux-x64/bin/npm /usr/local/bin/npm
+    ca-certificates \
+    curl \
+    sudo
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
     sudo apt-get install nodejs
@@ -29,14 +25,15 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
 RUN mkdir -p /home/yapi/log
 
 RUN chown -R yapi:yapi /home/yapi/log && \
-    chown -R yapi:yapi /home/yapi/node-v11.15.0-linux-x64
+    chown -R yapi:yapi /usr/lib/node_modules
 
 VOLUME ["/home/yapi/log"]
 
 # download yapi source code
-USER yapi
+USER root
 
 COPY 2019.11.15.tar.gz .
+COPY config.json .
 
 RUN mkdir yapi && \
 #    wget https://github.com/YMFE/yapi/archive/v1.8.5.tar.gz && \
@@ -50,5 +47,3 @@ RUN npm install --registry https://registry.npm.taobao.org && \
     npm config set registry https://registry.npm.taobao.org && \
     npm install ykit -g && \
     ykit pack -m
-
-USER root
